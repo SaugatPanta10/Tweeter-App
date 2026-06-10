@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm
+from .forms import RegistrationForm, TweetForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -84,3 +84,15 @@ def logout_view(request):
 
         return redirect('/')
         # Redirect to homepage after logout
+
+def tweet_create(request):
+    if request.method == 'POST':
+        form = TweetForm(request.POST, request.FILES)
+        if form.is_valid():
+            tweet = form.save(commit=False)
+            tweet.user = request.user
+            tweet.save()
+            return redirect('/')
+    else:
+        form = TweetForm()
+    return render(request, 'tweet_create.html', {'form': form})
