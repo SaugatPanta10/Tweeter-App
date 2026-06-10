@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Global Timeline Feed</h2>
+
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'tweet_create' %}">Write a New Tweet</a></p>
+    {% endif %}
+
+    <hr>
+
+    {% if not tweets %}
+        <p>No tweets yet. Be the first to post something!</p>
+    {% else %}
+
+        {% for tweet in tweets %}
+            <div style="border-bottom: 1px dashed #ccc; padding: 10px 0;">
+                <p>
+                    <strong>@{{ tweet.user.username }}</strong>
+                    <small style="color: gray;">
+                        posted on {{ tweet.created_at|date:"M d, Y H:i" }}
+                    </small>
+                </p>
+
+                <p>{{ tweet.content }}</p>
+
+                {% if tweet.image %}
+                    <p>
+                        <img src="{{ tweet.image.url }}"
+                             alt="Tweet attachment"
+                             style="max-width: 300px; display: block; margin-top: 5px;">
+                    </p>
+                {% endif %}
+
+                {% if user.is_authenticated and user == tweet.user %}
+                    <p>
+                        <a href="{% url 'tweet_edit' tweet.id %}">Edit Tweet</a>
+                    </p>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
+{% endblock %}
