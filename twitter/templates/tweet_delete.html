@@ -1,18 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2> Delete Tweet</h2>
+    <h2>✏️ Edit Your Tweet</h2>
     
-    <p>Are you absolutely sure you want to permanently delete this tweet?</p>
-    
-    <blockquote style="border-left: 3px solid red; padding-left: 10px; color: #555;">
-        "{{ tweet.content }}"
-    </blockquote>
-
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <button type="submit" style="color: red; font-weight: bold;">⚠️ Yes, Delete Permanently</button>
+        {{ form.as_p }}
+        <button type="submit">💾 Save Changes</button>
     </form>
     
-    <p><a href="/">No, take me back to safety</a></p>
+    <p><a href="/">Cancel</a></p>
 {% endblock %}

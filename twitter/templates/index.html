@@ -2,45 +2,40 @@
 
 {% block content %}
     <h2>Global Timeline Feed</h2>
-
+    
     {% if user.is_authenticated %}
-        <p><a href="{% url 'tweet_create' %}">Write a New Tweet</a></p>
+        <p><a href="{% url 'tweet_create' %}" style="text-decoration: none; font-weight: bold; color: #1da1f2;">✍️ Write a New Tweet</a></p>
     {% endif %}
 
-    <hr>
+    <hr style="border: 0; border-top: 1px solid #e1e8ed; margin-bottom: 20px;">
 
     {% if not tweets %}
-        <p>No tweets yet. Be the first to post something!</p>
+        <p style="color: #536471; text-align: center;">No tweets yet. Be the first to post something!</p>
     {% else %}
-
+        
         {% for tweet in tweets %}
-            <div style="border-bottom: 1px dashed #ccc; padding: 10px 0;">
-                <p>
-                    <strong>@{{ tweet.user.username }}</strong>
-                    <small style="color: gray;">
-                        posted on {{ tweet.created_at|date:"M d, Y H:i" }}
-                    </small>
-                </p>
-
-                <p>{{ tweet.content }}</p>
-
+            <div class="tweet-card">
+                <div class="meta-text">
+                    <strong>@{{ tweet.user.username }}</strong> · {{ tweet.created_at|date:"M d, Y H:i" }}
+                </div>
+                
+                <p style="font-size: 1.05em; margin: 8px 0;">{{ tweet.content }}</p>
+                
                 {% if tweet.image %}
                     <p>
-                        <img src="{{ tweet.image.url }}"
-                             alt="Tweet attachment"
-                             style="max-width: 300px; display: block; margin-top: 5px;">
+                        <img src="{{ tweet.image.url }}" alt="Tweet attachment" style="max-width: 100%; max-height: 400px; border-radius: 8px; display: block; margin-top: 10px;">
                     </p>
                 {% endif %}
 
                 {% if user.is_authenticated and user == tweet.user %}
-                    <p>
-                        <a href="{% url 'tweet_edit' tweet.id %}">Edit Tweet</a>
-                        <a href="{% url 'tweet_delete' tweet.id %}" style="color: red;">Delete</a>
-                    </p>
+                    <div style="margin-top: 10px; font-size: 0.9em;">
+                        <a href="{% url 'tweet_edit' tweet.id %}" style="text-decoration: none; color: #1da1f2;">✏️ Edit</a> | 
+                        <a href="{% url 'tweet_delete' tweet.id %}" style="text-decoration: none; color: #f4212e;">🗑️ Delete</a>
+                    </div>
                 {% endif %}
             </div>
         {% endfor %}
-
+        
     {% endif %}
 
 {% endblock %}
