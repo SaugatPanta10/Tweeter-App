@@ -168,3 +168,24 @@ def tweet_edit(request, id):
     # Render edit page and send:
     # - form (for displaying/editing fields)
     # - tweet object (if template needs tweet information)
+
+# View for deleting a tweet
+def tweet_delete(request, id):
+
+    # Retrieve the tweet with the given ID that belongs to the currently logged-in user.
+    # If no matching tweet is found, return a 404 error.
+    tweet = get_object_or_404(Tweet, id=id, user=request.user)
+
+    # Check if the request is a POST request.
+    # This confirms that the user has submitted the delete confirmation form.
+    if request.method == 'POST':
+
+        # Permanently remove the tweet from the database.
+        tweet.delete()
+
+        # After deletion, redirect the user to the homepage.
+        return redirect('/')
+
+    # If the request is GET, display the confirmation page
+    # and pass the tweet object to the template.
+    return render(request, 'tweet_delete.html', {'tweet': tweet})

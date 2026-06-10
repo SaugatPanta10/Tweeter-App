@@ -11,5 +11,5 @@ urlpatterns = [
     path('logout', views.logout_view, name = 'logout'),
     path ('create/', views.tweet_create, name = 'tweet_create'),
     path ('edit/<int:id>', views.tweet_edit, name = 'tweet_edit'),
-
+    path ('delete/<int:id>/', views.tweet_delete, name = 'tweet_delete'),
 ] 

@@ -35,6 +35,7 @@
                 {% if user.is_authenticated and user == tweet.user %}
                     <p>
                         <a href="{% url 'tweet_edit' tweet.id %}">Edit Tweet</a>
+                        <a href="{% url 'tweet_delete' tweet.id %}" style="color: red;">Delete</a>
                     </p>
                 {% endif %}
             </div>
